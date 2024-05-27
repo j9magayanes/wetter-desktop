@@ -1,0 +1,205 @@
+@import url(https://db.onlinewebfonts.com/c/759e4a6bb4cd8bc8dc082ccc8386e8cc?family=Gotham+Condensed+Book);
+@font-face {
+  font-family: "Gotham Condensed Book";
+  src: url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.eot");
+  src: url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.svg#Gotham Condensed Bold")
+      format("svg");
+}
+@font-face {
+  font-family: "Gotham Condensed Bold";
+  src: url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.eot");
+  src: url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/010b0c65ea7dee40153adf2034153db0.svg#Gotham Condensed Bold")
+      format("svg");
+}
+
+:root {
+  --clr-white: #ffffff;
+  --clr-black: #000000;
+  --clr-gray: #999999;
+  --clr-gray-light: #e5e5e5;
+  --clr-red: #dd0000;
+  --clr-red-light: #e3acac;
+  --clr-navy: #184482;
+  --clr-navy-light: #80caff;
+
+  --fs-base: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: "#99999";
+  justify-items: center;
+}
+
+body {
+  margin: 0;
+  font-family: "Gotham Condensed Book";
+  background-color: var(--clr-gray-light);
+  color: var(--clr-black);
+  display: grid;
+}
+
+.card {
+  --max-width: 992px;
+  height: 327px; 
+  --clr-background: var(--clr-gray-light);
+  width: min(var(--max-width), 100vw);
+  background-color: var(--clr-background);
+  font-size: var(--fs-base);
+}
+
+.card-body {
+  --padding-x: 0.75em;
+  --padding-y: 0.75em;
+  --gap: 0.75em;
+  padding: var(--padding-y) var(--padding-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.search {
+  --font-size: calc(var(--fs-base) * 2.5);
+  --padding-y: 0;
+  --padding-x: 0.2em;
+  --icon-size: calc(var(--font-size) * 0.75);
+  --input-width: 206px;
+  height: 47px;
+  display: flex;
+  align-items: stretch;
+}
+
+.search-input {
+  font-size: var(--font-size);
+  line-height: 1;
+  padding: var(--padding-y) var(--padding-x);
+  font-family: "Gotham Condensed Bold";
+  background-color: var(--clr-red);
+  color: var(--clr-white);
+  border: none;
+  width: var(--input-width);
+}
+
+.search-btn {
+  font-size: var(--font-size);
+  line-height: 1;
+  cursor: pointer;
+  padding: var(--padding-y) var(--padding-x);
+  background-color: transparent;
+  color: var(--clr-black);
+  border: none;
+}
+
+.search-btn > svg {
+  display: block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.question {
+  --font-size: calc(var(--fs-base) * 2.25 );
+  --max-width: 24ch;
+  font-family: "Gotham Condensed Bold";
+  font-size: var(--font-size);
+  max-width: var(--max-width);
+  line-height: 1;
+  text-align: center;
+  margin-inline: auto;
+  margin-top: 13px;
+}
+
+.today {
+  --font-size: calc(var(--fs-base) * 1.75);
+  --padding-x: 0.25em;
+  --padding-y: 0.125em;
+  --icon-size: calc(var(--font-size) * 0.5);
+  --gap: 4px;
+  font-size: var(--font-size);
+  padding: var(--padding-y) var(--padding-x);
+  color: var(--clr-white);
+  background-color: var(--clr-red);
+  line-height: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  font-family: "Gotham Condensed Bold";
+  margin-inline: auto;
+}
+
+.today > svg {
+  height: var(--icon-size);
+}
+
+ .swatches-container {
+  --font-size: 1.25em;
+  --gap-x: 1em;
+  --swatch-width: 1.5em;
+  --swatch-height: 2px;
+  font-size: var(--font-size);
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 var(--gap-x);   
+}
+
+.swatch {
+  display: flex;
+  align-items: center;
+  margin-top: 13px;
+}
+
+.swatch-red {
+  width: 27.94px;
+  height: 2px;
+  top: 11.67px;
+  left: 0.5px;
+  gap: 0px;
+  border: 2px 0px 0px 0px;
+  opacity: 0px;
+  background-color: var(--clr-red);
+  margin-right: 0.25em;
+}
+
+.swatch-blue {
+  width: 27.94px;
+  height: 19.79px;
+  left: 0.5px;
+  gap: 0px;
+  opacity: 0px;
+  background-color: var(--clr-navy-light);
+  margin-right: 0.25em;
+  align-items: flex-end;
+  position: relative;
+}
+
+.dotted-line {
+  border-top: 1px dotted black;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
