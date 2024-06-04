@@ -44,6 +44,7 @@
   
   .temp-chart .y-axis-g .bg-rect {
     fill: var(--clr-background);
+    width: 19px;
   }
   
   .temp-chart .x-axis-g {

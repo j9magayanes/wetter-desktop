@@ -3,17 +3,13 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="chart.css" />
-  <link
-    href="https://db.onlinewebfonts.com/c/759e4a6bb4cd8bc8dc082ccc8386e8cc?family=Gotham+Condensed+Book"
-    rel="stylesheet"
-  />
 </head>
 <body>
   <div class="card">
     <div class="card-header">
       <div class="search">
-        <input class="search-input" value="Hannover" />
-        <button class="search-btn">
+        <div class="search-input" value="Hannover" readonly></input>
+        <button class="search-btn" id="search-btn">
           <svg
             viewBox="0 0 57 57"
             fill="none"
@@ -32,21 +28,54 @@
             <div class="swatch-label">Temperatur dieses Jahr</div>
           </div>
           <div class="swatch">
-            <div class="swatch-blue">  <div class="dotted-line"></div></div>
+            <div class="swatch-blue"><div class="dotted-line"></div></div>
             <div class="swatch-label">Temperatur letzte 100 Jahre</div>
           </div>
         </div>
       </div>
     </div>
     <div class="card-body">
-    
-      <div>
-        
-      </div>
+      <div></div>
       <div id="tempChart"></div>
     </div>
   </div>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+      <!-- Modal content -->
+  <div id="search-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-items">
+        <text class="modal-title">Suchen Sie Ihren Standort</text>
+        <input class="modal-input" placeholder="PLZ / Ort">
+      </input>
+        <div class="modal-text">
+        <button class="modal-text-close">ABBRECHEN</button>
+        <button class="modal-text-search" id="text-search" >SUCHEN</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { getWeatherData, getCityNameByZip } from './api.js';
+
+
+
+    document.getElementById('text-search').addEventListener('click', async () => {
+      const zipCode = document.querySelector('.modal-input').value;
+      console.log(zipCode)
+      try {
+        const  convertedCity  = await getCityNameByZip(zipCode) ;
+        if (convertedCity) {
+          console.log(convertedCity)
+          document.getElementsByClassName('search-input')[0].value = convertedCity;
+        } else {
+          console.error('No city found for the provided zip code.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+});
+  </script>
+  <script src="d3.v7.min.js"></script>
   <script src="chart.js"></script>
+  <script src="search.js"></script>
   <script src="index.js"></script>
 </body>

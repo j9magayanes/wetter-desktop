@@ -24,7 +24,10 @@ function tempChart({ element, data }) {
     const xAccessor = (d) => d.date;
     const y1Accessor = (d) =>
       Number.isFinite(d.maxMaxThisYear) ? d.maxMaxThisYear : undefined;
-    const y2Accessor = (d) => (Number.isFinite(d.avgMax) ? d.avgMax : undefined);
+    const y2Accessor = (d) => (Number.isFinite(d.maxMax) ? d.maxMax : undefined);
+    const y0Accessor = (d) => (Number.isFinite(d.minMin) ? d.minMin : undefined);
+    const y3Accessor = (d) => (Number.isFinite(d.avgMax) ? d.avgMax : undefined);
+    const y4Accessor = (d) => (Number.isFinite(d.avgMin) ? d.avgMin : undefined);
   
     // Formatting values for tooltip
     const valueFormat = new Intl.NumberFormat('de-DE', {
@@ -59,25 +62,28 @@ function tempChart({ element, data }) {
       .range([height - marginBottom, marginTop])
       .nice();
   
-    // Calculate the extent for y-axis
-    function getYExtent() {
-      let yMin = d3.min(flattenedData, (d) =>
-        d3.min([y1Accessor(d), y2Accessor(d)])
-      );
-      let yMax = d3.max(flattenedData, (d) =>
-        d3.max([y1Accessor(d), y2Accessor(d)])
-      );
-      const padding = (yMax - yMin) * 0.1;
-      yMin -= padding;
-      yMax += padding;
-      return [yMin, yMax];
-    }
+  // Calculate the extent for y-axis
+function getYExtent() {
+  let yMin = d3.min(flattenedData, (d) =>
+    d3.min([y0Accessor(d), y2Accessor(d)])
+  );
+  let yMax = d3.max(flattenedData, (d) =>
+    d3.max([y1Accessor(d), y2Accessor(d)])
+  );
+  const padding = (yMax - yMin) * 0.1;
+  
+  // Ensure the minimum y value does not exceed -10
+  yMin = Math.min(yMin - padding, -10);
+  
+  yMax += padding;
+  return [yMin, yMax];
+}
   
     // Area and line generators
     const areaGenerator = d3
       .area()
       .x((d) => x(d[0]))
-      .y0(height - marginBottom)
+      .y0((d) => y(d[2]))       
       .y1((d) => y(d[1]))
       .curve(d3.curveMonotoneX)
       .defined((d) => d[1] !== undefined);
@@ -112,7 +118,6 @@ function tempChart({ element, data }) {
     // Resize observer for responsive chart
     new ResizeObserver((entries) =>
       entries.forEach((entry) => {
-        console.log(entry)
         resized(entry.contentRect);
       })
     ).observe(scrollContainer.node());
@@ -201,28 +206,17 @@ function tempChart({ element, data }) {
   
     // Render series data (area and lines)
     function renderSeries() {
+
       svg
-        .selectAll('.area-path-1')
-        .data([flattenedData.map((d) => [xAccessor(d), y1Accessor(d)])])
-        .join((enter) =>
-          enter
-            .append('path')
-            .attr('class', 'area-path-1')
-            .attr('fill', 'var(--clr-fill-series-1)')
-        )
-        .attr('d', areaGenerator);
-  
-      svg
-        .selectAll('.area-path-2')
-        .data([flattenedData.map((d) => [xAccessor(d), y2Accessor(d)])])
-        .join((enter) =>
-          enter
-            .append('path')
-            .attr('class', 'area-path-2')
-            .attr('fill', 'var(--clr-fill-series-2)')
-        )
-        .attr('d', areaGenerator);
-  
+      .selectAll('.area-path-2')
+      .data([flattenedData.map((d) => [xAccessor(d), y2Accessor(d), y0Accessor(d)])]) // Include y0 data
+      .join((enter) =>
+        enter
+          .append('path')
+          .attr('class', 'area-path-2')
+          .attr('fill', 'var(--clr-fill-series-2)')
+      )
+      .attr('d', areaGenerator);
       svg
         .selectAll('.line-path-2')
         .data([flattenedData.map((d) => [xAccessor(d), y2Accessor(d)])])
@@ -232,7 +226,7 @@ function tempChart({ element, data }) {
             .attr('class', 'line-path-2')
             .attr('fill', 'none')
             .attr('stroke', 'var(--clr-series-2)')
-            .attr('stroke-width', lineStrokeWidth)
+            .attr('stroke-width', '0')
         )
         .attr('d', lineGenerator);
   
@@ -246,6 +240,46 @@ function tempChart({ element, data }) {
             .attr('fill', 'none')
             .attr('stroke', 'var(--clr-series-1)')
             .attr('stroke-width', lineStrokeWidth)
+        )
+        .attr('d', lineGenerator);
+
+        svg
+        .selectAll('.line-path-3')
+        .data([flattenedData.map((d) => [xAccessor(d), y0Accessor(d)])])
+        .join((enter) =>
+          enter
+            .append('path')
+            .attr('class', 'line-path-2')
+            .attr('fill', 'none')
+            .attr('stroke', 'none')
+        )
+        .attr('d', lineGenerator);
+
+        svg
+        .selectAll('.line-path-4')
+        .data([flattenedData.map((d) => [xAccessor(d), y3Accessor(d)])])
+        .join((enter) =>
+          enter
+            .append('path')
+            .attr('class', 'line-path-4')
+            .attr('fill', 'none')
+            .attr('stroke', '#174482')  // Set stroke color to gray
+            .attr('stroke-width', lineStrokeWidth)
+            .attr('stroke-dasharray', '2  3') // Create dotted effect with a dasharray
+        )
+        .attr('d', lineGenerator);
+
+        svg
+        .selectAll('.line-path-5')
+        .data([flattenedData.map((d) => [xAccessor(d), y4Accessor(d)])])
+        .join((enter) =>
+          enter
+            .append('path')
+            .attr('class', 'line-path-4')
+            .attr('fill', 'none')
+            .attr('stroke', '#174482')  // Set stroke color to gray
+            .attr('stroke-width', lineStrokeWidth)
+            .attr('stroke-dasharray', '2 3')  // Create dotted effect with a dasharray
         )
         .attr('d', lineGenerator);
     }
@@ -502,6 +536,30 @@ function tempChart({ element, data }) {
         ...flattenedData
           .map((d) => {
             const p = [xAccessor(d), y2Accessor(d)];
+            p.seriesId = 2;
+            p.data = d;
+            return p;
+          })
+          .filter((p) => p[1] !== undefined),
+          ...flattenedData
+          .map((d) => {
+            const p = [xAccessor(d), y0Accessor(d)];
+            p.seriesId = 2;
+            p.data = d;
+            return p;
+          })
+          .filter((p) => p[1] !== undefined),
+          ...flattenedData
+          .map((d) => {
+            const p = [xAccessor(d), y3Accessor(d)];
+            p.seriesId = 2;
+            p.data = d;
+            return p;
+          })
+          .filter((p) => p[1] !== undefined),
+          ...flattenedData
+          .map((d) => {
+            const p = [xAccessor(d), y4Accessor(d)];
             p.seriesId = 2;
             p.data = d;
             return p;
