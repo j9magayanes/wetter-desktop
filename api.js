@@ -1,8 +1,26 @@
 const API_KEY = ''; // Add your actual API key here
 const BASE_URL = 'http://localhost:27017/';
 
+
+let inputValue= document.getElementsByClassName('modal-input')[0]
+inputValue.addEventListener('keypress', async () => {
+  const zipCode = document.querySelector('.modal-input').value;
+  console.log(zipCode)
+  try {
+    const  convertedCity  = await getCityNameByZip(zipCode) ;
+    if (convertedCity) {
+      inputValue.value = convertedCity;
+      document.getElementsByClassName('search-input')[0].textContent = convertedCity;
+    } else {
+      console.error('No city found for the provided zip code.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
 // Function to get weather data for a specific city
-export async function getWeatherData(zipCode) {
+ async function getWeatherData(zipCode) {
   try {
     const convertedCity = await getCityNameByZip(zipCode);
     if (!convertedCity) {
@@ -22,7 +40,7 @@ export async function getWeatherData(zipCode) {
 }
 
 // Function to get city name by zip code
-export async function getCityNameByZip(zipCode) {
+async function getCityNameByZip(zipCode) {
   try {
     const response = await fetch("city.json");
     if (!response.ok) {

@@ -69,10 +69,7 @@ body {
 
 .search {
   --font-size: calc(var(--fs-base) * 2.5);
-  --padding-y: 0;
-  --padding-x: 0.2em;
   --icon-size: calc(var(--font-size) * 0.75);
-  --input-width: 206px;
   height: 47px;
   display: flex;
   align-items: stretch;
@@ -80,10 +77,9 @@ body {
 
 .search-input {
   font-size: var(--font-size);
-  line-height: 1;
-  padding: var(--padding-y) var(--padding-x);
-  font-family: 'Gotham Condensed Bold';
+  font-family: 'Gotham Narrow Medium';
   background-color: var(--clr-red);
+  padding: 0px 8.3px 3px 6.7px  ;
   color: var(--clr-white);
   border: none;
   width: var(--input-width);
@@ -91,7 +87,8 @@ body {
 
 .search-btn {
   font-size: var(--font-size);
-  line-height: 1;
+  margin-top: 9.26px;
+  margin-left: 8.88px;
   cursor: pointer;
   padding: var(--padding-y) var(--padding-x);
   background-color: transparent;

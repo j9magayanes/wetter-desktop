@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8" />
@@ -8,7 +9,7 @@
   <div class="card">
     <div class="card-header">
       <div class="search">
-        <div class="search-input" value="Hannover" readonly></input>
+        <span class="search-input" >Hannover</span>
         <button class="search-btn" id="search-btn">
           <svg
             viewBox="0 0 57 57"
@@ -53,27 +54,7 @@
       </div>
     </div>
   </div>
-  <script type="module">
-    import { getWeatherData, getCityNameByZip } from './api.js';
-
-
-
-    document.getElementById('text-search').addEventListener('click', async () => {
-      const zipCode = document.querySelector('.modal-input').value;
-      console.log(zipCode)
-      try {
-        const  convertedCity  = await getCityNameByZip(zipCode) ;
-        if (convertedCity) {
-          console.log(convertedCity)
-          document.getElementsByClassName('search-input')[0].value = convertedCity;
-        } else {
-          console.error('No city found for the provided zip code.');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-});
-  </script>
+  <script src="api.js"> </script>
   <script src="d3.v7.min.js"></script>
   <script src="chart.js"></script>
   <script src="search.js"></script>
