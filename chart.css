@@ -89,3 +89,15 @@
     display: block;
     width: var(--icon-size);
   }
+
+  .temp-chart .tooltip-background {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 110.52px;
+    height: 78.18px;
+    left: -0.11px;
+    padding: 2.92px 5.85px 2.92px 5.85px;
+    gap: 0px;
+    border-radius: 5.85px 5.85px 5.85px 0px;
+    z-index: -1
+
+  }

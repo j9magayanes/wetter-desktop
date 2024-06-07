@@ -144,13 +144,16 @@ function getYExtent() {
       yAxisSvg.attr('width', noScrollWidth).attr('height', height);
   
       svg.attr('width', scrollWidth).attr('height', height);
-  
+      
+
+
       // Render the chart
       renderChart();
   
       scrollContainer.node().scrollLeft = scrollContainer.node().scrollWidth;
     }
-  
+
+
     // Main render function
     function renderChart() {
       renderYAxis();
@@ -160,6 +163,8 @@ function getYExtent() {
       renderTooltip();
     }
   
+
+
     // Render y-axis grid
     function renderYAxis() {
       const g = yAxisSvg
@@ -451,9 +456,9 @@ function getYExtent() {
         const src = `./assets/temp_${d.seriesId === 1 ? 'up' : 'down'}.svg`;
         tooltip
           .html(
-            `<img src="${src}" /> <span style="color: var(--clr-series-${
+            `<div class="tooltip-background"><img src="${src}" /> <span style="color: var(--clr-series-${
               d.seriesId
-            })">${valueFormat(d[1])}<span>`
+            })">${valueFormat(d[1])}<span></div>`
           )
           .classed('is-visible', true);
         const transX = x(d[0]) - scrollContainer.node().scrollLeft;
@@ -503,6 +508,17 @@ function getYExtent() {
       renderFocus();
       renderTooltip();
     }
+
+      // Cleanup function
+  function remove() {
+    resizeObserver.disconnect();
+    container.selectAll('*').remove();
+  }
+
+  // Return remove function for external use
+  return {
+    remove,
+  };
   
     // Function to process raw data and prepare it for rendering
     function processData(data) {
