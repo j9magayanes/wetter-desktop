@@ -187,26 +187,6 @@ body {
   width: 100%;
 }
 
-/* scrollbar customizations */
-.main-svg::-webkit-scrollbar {
-  width: 1vw;
-  background: transparent;
-}
-
-.main-svg::-webkit-scrollbar-track {
-  background: var(--clr-white);
-  border-radius: 1vw;
-}
-
-.main-svg::-webkit-scrollbar-thumb {
-  background: var(--clr-gray);
-  border-radius: 1vw;
-}
-
-.main-svg::-webkit-scrollbar-thumb:hover {
-  background: var(--clr-navy-light);
-}
-
 .modal {
   display: none;
   position: fixed;
@@ -320,3 +300,23 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+.arrows {
+  position: fixed;
+  /* Adjust as necessary */
+  left: 5%;
+  transform: translateX(-50%);
+  display: flex; /* Space between arrows */
+}
+
+.scroll-left, .scroll-right {
+  width: 24px;
+height: 24px;
+background-color: #999999;
+gap: 0px;
+opacity: 0px;
+border: none;
+border-radius: 50%;
+}
+
+

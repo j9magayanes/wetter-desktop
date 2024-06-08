@@ -1,6 +1,7 @@
 .temp-chart {
     --clr-series-1: var(--clr-red);
     --clr-series-2: var(--clr-navy);
+    --clr-tooltpip: var(--clr-white);
     --clr-fill-series-1: var(--clr-red-light);
     --clr-fill-series-2: var(--clr-navy-light);
     --clr-background: var(--clr-gray-light);
@@ -24,6 +25,7 @@
   .temp-chart .scroll-container {
     overflow-x: auto;
     overscroll-behavior: contain;
+    scrollbar-width: none;  
   }
   
   .temp-chart .main-svg {
@@ -98,6 +100,37 @@
     padding: 2.92px 5.85px 2.92px 5.85px;
     gap: 0px;
     border-radius: 5.85px 5.85px 5.85px 0px;
-    z-index: -1
+    z-index: -1;
+  }
 
+  .focus-circle {
+    stroke: white; /* Border color */
+    stroke-width: 1.83px; /* Border width */
+  }
+
+  .tooltip-row {
+    display: flex;
+    flex-direction: row;
+    color: white;
+  }
+
+  .tooltip-row img {
+      z-index: 3;
+  }
+
+  .tooltip-row span {
+    margin-left: 6px;
+  }
+
+  .tooltip-value {
+    font-family: "Gotham Condensed Bold";
+  }
+
+  .arrow-svg-left {
+    padding-top: 4px;
+  }
+  
+  .arrow-svg-right {
+    padding-top: 4px;
+    padding-left: 3px;
   }
