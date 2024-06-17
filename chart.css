@@ -12,20 +12,23 @@
     gap: var(--gap);
     font-family: "Gotham Condensed Book";
     position: relative;
+    left: 20px
   }
   
   .temp-chart .y-axis-svg {
     display: block;
     position: absolute;
     top: 0;
-    left: 0;
+  
+
     pointer-events: none;
   }
   
   .temp-chart .scroll-container {
     overflow-x: auto;
     overscroll-behavior: contain;
-    scrollbar-width: none;  
+    scrollbar-width: none;
+
   }
   
   .temp-chart .main-svg {

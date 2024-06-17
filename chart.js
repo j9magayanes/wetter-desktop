@@ -124,13 +124,14 @@ function tempChart({ element, data }) {
 
   // Resize handler
   function resized(rect) {
-    noScrollWidth = rect.width;
+    noScrollWidth = rect.width ;
     const boundedWidth =
       rect.width - marginRight - dayLabelsHeight / 2 + marginLeft;
     const months = d3.bisect(thresholds, boundedWidth) + 1;
     const days = d3.sum(groupedData.slice(-months), (d) => d.days.length);
     scrollWidth =
-      (boundedWidth / (days - 1)) * (totalDays - 1) + marginLeft + marginRight;
+      (boundedWidth / (days - 1)) * (totalDays - 1) + marginLeft + marginRight -100;
+    
 
     x.range([marginLeft, scrollWidth - marginRight]);
 
@@ -300,8 +301,9 @@ function renderButtons() {
   container.append('button')
     .attr('class', 'scroll-left')
     .style('position', 'absolute')
-
-
+    .style('left', '-27px')
+    .style('bottom', '33px')
+    .attr('transform', `translate(0,${height - marginBottom})`)  
     .on('click', () => {
       scrollContainer.node().scrollBy({ left: -scrollContainer.node().offsetWidth / 2, behavior: 'smooth' });
     })
@@ -315,7 +317,8 @@ function renderButtons() {
   container.append('button')
     .attr('class', 'scroll-right')
     .style('position', 'absolute')
-    .style('right', '0px')
+    .style('right', '-5px')
+    .style('bottom', '33px')
 
     .on('click', () => {
       scrollContainer.node().scrollBy({ left: scrollContainer.node().offsetWidth / 2, behavior: 'smooth' });

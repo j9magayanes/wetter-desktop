@@ -67,7 +67,7 @@ inputValue.addEventListener('keyup', async (event) => {
 // Function to get city name by zip code
 async function getCityNameByZip(zipCode) {
   try {
-    const response = await fetch("./data/city.json");
+    const response = await fetch("./data/plz.json");
     if (!response.ok) {
       throw new Error(`An error occurred: ${response.statusText}`);
     }

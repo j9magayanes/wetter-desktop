@@ -301,14 +301,6 @@ body {
   cursor: pointer;
 }
 
-.arrows {
-  position: fixed;
-  /* Adjust as necessary */
-  left: 5%;
-  transform: translateX(-50%);
-  display: flex; /* Space between arrows */
-}
-
 .scroll-left, .scroll-right {
   width: 24px;
 height: 24px;
