@@ -3,7 +3,7 @@ function tempChart({ element, data }) {
   let noScrollWidth, scrollWidth, delaunay, tooltipDatumIndex;
 
   // Chart dimensions and style constants
-  const height = 235.24;
+  const height = 220;
   const focusDotSize = 4;
   const lineStrokeWidth = 2;
   const dayDotSize = 2;
@@ -317,7 +317,7 @@ function renderButtons() {
     .attr('class', 'scroll-left')
     .style('position', 'absolute')
     .style('left', '-27px')
-    .style('bottom', '33px')
+    .style('bottom', '22px')
     .attr('transform', `translate(0,${height - marginBottom})`)  
     .on('click', () => {
       scrollContainer.node().scrollBy({ left: -scrollContainer.node().offsetWidth / 2, behavior: 'smooth' });
@@ -333,7 +333,7 @@ function renderButtons() {
     .attr('class', 'scroll-right')
     .style('position', 'absolute')
     .style('right', '10px')
-    .style('bottom', '33px')
+    .style('bottom', '22px')
 
     .on('click', () => {
       scrollContainer.node().scrollBy({ left: scrollContainer.node().offsetWidth / 2, behavior: 'smooth' });

@@ -31,6 +31,10 @@ const searchInput = document.getElementsByClassName("search-input")[0];
 const modalInput = document.getElementsByClassName("modal-input")[0];
 const textSearch = document.getElementById("text-search");
 const textClose = document.getElementsByClassName("modal-text-close")[0];
+const overlay = document.getElementById("overlay");
+const info = document.getElementById("info-modal");
+const infoButton = document.getElementById("info-btn");
+const infoInput = document.getElementsByClassName("info-input")[0];
 const temperature = document.getElementById("temperature");
 const comparison = document.getElementById("comparison");
 const tempImage = document.getElementById("tempImage");
@@ -136,6 +140,20 @@ window.onclick = function (event) {
 textClose.onclick = function () {
   modal.style.display = "none";
 };
+
+infoButton.onclick = function () {
+  info.style.display = "block";
+  overlay.style.display = "block"; 
+};
+
+window.onclick = function (event) {
+  if (event.target == overlay) {
+    info.style.display = "none";
+    overlay.style.display = "none"; 
+  }
+};
+
+
 
 // get list of all the city and zip
 async function getCityData() {

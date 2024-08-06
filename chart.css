@@ -9,7 +9,6 @@
     font-size: var(--fs-base);
     display: flex;
     flex-direction: column;
-    gap: var(--gap);
     font-family: "Gotham Condensed Book";
     position: relative;
     left: 20px

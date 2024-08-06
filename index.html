@@ -36,12 +36,13 @@
           <div class="swatch-label">Höhen und Tiefen Rekorde</div>
           <div class="swatch-blue"></div>
           <div class="swatch-label">Durchschnittstemperatur der letzten 100 Jahre</div>
+          <button class="info-btn" id="info-btn">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal content -->
+  <!-- Search content -->
   <div id="search-modal" class="modal">
     <div class="modal-content">
       <div class="modal-items">
@@ -57,6 +58,17 @@
       </div>
     </div>
   </div>
+
+    <!-- Info content -->
+    <div id="overlay"></div>
+    <div id="info-modal" class="info">
+
+        <div class="info-items">
+          <text class="info-title">Information</text>
+          <text class="info-details">Die historischen Wetterdaten stammen aus dem Archiv des Deutschen Wetterdienstes DWD. Sie kommen von etwa 400 aktiven und über 900 nicht mehr aktiven Messstationen aus ganz Deutschland. Da nicht jede Station die kompletten historischen Daten bereitstellt, werden für den Zeitraum der letzten 100 Jahre auch Stationen in der Nähe für die Ergebnisse herangezogen.
+          </text>
+        </div>
+    </div>
   <script type="module" src="api.js"> </script>
   <script src="d3.v7.min.js"></script>
   <script src="chart.js"></script>
