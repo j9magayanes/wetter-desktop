@@ -156,6 +156,9 @@ body {
   margin-top: 13px;
 }
 
+.swatch-label {
+  margin-right: 24px;
+}
 .swatch-red {
   width: 27.94px;
   height: 2px;
@@ -165,7 +168,6 @@ body {
   border: 2px 0px 0px 0px;
   opacity: 0px;
   background-color: var(--clr-red);
-  margin-right: 0.25em;
 }
 
 .swatch-blue {
@@ -175,13 +177,25 @@ body {
   gap: 0px;
   opacity: 0px;
   background-color: var(--clr-navy-light);
+  border-top: 1px solid  var(--clr-navy);
+  margin-right: 0.25em;
+  align-items: flex-end;
+  position: relative;
+}
+
+.swatch-transparent {
+  width: 27.94px;
+  height: 19.79px;
+  left: 0.5px;
+  gap: 0px;
+  opacity: 0px;
   margin-right: 0.25em;
   align-items: flex-end;
   position: relative;
 }
 
 .dotted-line {
-  border-top: 1px dotted black;
+  border-top: 1px dotted  var(--clr-navy);
   position: absolute;
   top: 50%;
   width: 100%;
