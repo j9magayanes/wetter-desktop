@@ -124,7 +124,8 @@ function tempChart({ element, data }) {
 
   // Resize handler
   function resized(rect) {
-    noScrollWidth = rect.width ;
+    console.log(rect.width)
+    noScrollWidth = rect.width -20  ;
     const boundedWidth =
       rect.width - marginRight - dayLabelsHeight / 2 + marginLeft;
     const months = d3.bisect(thresholds, boundedWidth) + 1;
@@ -212,16 +213,17 @@ function tempChart({ element, data }) {
     svg
       .selectAll('.area-path-2')
       .data([
-        flattenedData.map((d) => [xAccessor(d), y2Accessor(d), y0Accessor(d)]),
+        flattenedData.map((d) => [xAccessor(d), y3Accessor(d), y4Accessor(d)]),
       ]) // Include y0 data
       .join((enter) =>
         enter
           .append('path')
           .attr('class', 'area-path-2')
+         
           .attr('fill', 'var(--clr-fill-series-2)')
       )
       .attr('d', areaGenerator);
-    svg
+      svg
       .selectAll('.line-path-2')
       .data([flattenedData.map((d) => [xAccessor(d), y2Accessor(d)])])
       .join((enter) =>
@@ -231,6 +233,19 @@ function tempChart({ element, data }) {
           .attr('fill', 'none')
           .attr('stroke', 'var(--clr-series-2)')
           .attr('stroke-width', '0')
+      )
+      .attr('d', lineGenerator);
+
+    svg
+      .selectAll('.line-path-6')
+      .data([flattenedData.map((d) => [xAccessor(d), y3Accessor(d)])])
+      .join((enter) =>
+        enter
+          .append('path')
+          .attr('class', 'line-path-2')
+          .attr('fill', 'none')
+          .attr('stroke', 'var(--clr-series-2)')
+          .attr('stroke-width', '2')
       )
       .attr('d', lineGenerator);
 
@@ -261,14 +276,14 @@ function tempChart({ element, data }) {
 
     svg
       .selectAll('.line-path-4')
-      .data([flattenedData.map((d) => [xAccessor(d), y3Accessor(d)])])
+      .data([flattenedData.map((d) => [xAccessor(d), y2Accessor(d)])])
       .join(
         (enter) =>
           enter
             .append('path')
             .attr('class', 'line-path-4')
             .attr('fill', 'none')
-            .attr('stroke', '#174482') // Set stroke color to gray
+            .attr('stroke', '#174482') 
             .attr('stroke-width', lineStrokeWidth)
             .attr('stroke-dasharray', '2  3') // Create dotted effect with a dasharray
       )
@@ -276,16 +291,16 @@ function tempChart({ element, data }) {
 
     svg
       .selectAll('.line-path-5')
-      .data([flattenedData.map((d) => [xAccessor(d), y4Accessor(d)])])
+      .data([flattenedData.map((d) => [xAccessor(d), y0Accessor(d)])])
       .join(
         (enter) =>
           enter
             .append('path')
             .attr('class', 'line-path-4')
             .attr('fill', 'none')
-            .attr('stroke', '#174482') // Set stroke color to gray
+            .attr('stroke', '#174482') 
             .attr('stroke-width', lineStrokeWidth)
-            .attr('stroke-dasharray', '2 3') // Create dotted effect with a dasharray
+            .attr('stroke-dasharray', '2 3')
       )
       .attr('d', lineGenerator);
   }
@@ -317,7 +332,7 @@ function renderButtons() {
   container.append('button')
     .attr('class', 'scroll-right')
     .style('position', 'absolute')
-    .style('right', '-5px')
+    .style('right', '10px')
     .style('bottom', '33px')
 
     .on('click', () => {

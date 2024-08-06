@@ -301,6 +301,30 @@ body {
   cursor: pointer;
 }
 
+.autocomplete-suggestions {
+  position: absolute;
+  width: 734.55px;
+  height: 200px;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: #FFFFFF; /* Black background */
+  color: #495057; /* White text for better contrast */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000; /* Ensure it overlays above other content */
+  list-style-type: none;
+  padding: 10px;
+  margin: 150px;
+  display: none; /* Hidden by default */
+}
+
+.option span {
+  padding-left: 10px;
+  margin-bottom: 20px;
+  font-size: 25.32px;
+}
+
 .scroll-left, .scroll-right {
   width: 24px;
 height: 24px;

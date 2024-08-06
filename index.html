@@ -9,7 +9,7 @@
   <div class="card">
     <div class="card-header">
       <div class="search">
-        <span class="search-input" >Berlin</span>
+        <span class="search-input">Berlin</span>
         <button class="search-btn" id="search-btn">
           <svg
             viewBox="0 0 57 57"
@@ -23,37 +23,38 @@
           </svg>
         </button>
         <div class="question">Wettergeschichte (°C)</div>
-        <div class="swatches-container">
-          <div class="swatch">
-            <div class="swatch-red"></div>
-            <div class="swatch-label">Temperatur dieses Jahr</div>
-          </div>
-          <div class="swatch">
-            <div class="swatch-blue"><div class="dotted-line"></div></div>
-            <div class="swatch-label">Temperatur letzte 100 Jahre</div>
-          </div>
-        </div>
+    
       </div>
     </div>
     <div class="card-body">
-      <div></div>
       <div id="tempChart"></div>
+      <div class="swatches-container">
+        <div class="swatch">
+          <div class="swatch-red"></div>
+          <div class="swatch-label">Temperatur dieses Jahr</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-blue"><div class="dotted-line"></div></div>
+          <div class="swatch-label">Temperatur letzte 100 Jahre</div>
+        </div>
+      </div>
     </div>
   </div>
 
-      <!-- Modal content -->
+  <!-- Modal content -->
   <div id="search-modal" class="modal">
     <div class="modal-content">
       <div class="modal-items">
         <text class="modal-title">Suchen Sie Ihren Standort</text>
-        <input class="modal-input" placeholder="PLZ / Ort">
-      </input>
+        <input  class="modal-input" placeholder="PLZ / Ort">
+        <div class="autocomplete-suggestions">
+          <!-- Dynamically populated suggestions -->
+        </div>
         <div class="modal-text">
-        <button class="modal-text-close">ABBRECHEN</button>
-        <button class="modal-text-search" id="text-search">SUCHEN</button>
+          <button class="modal-text-close">ABBRECHEN</button>
+          <button class="modal-text-search" id="text-search">SUCHEN</button>
+        </div>
       </div>
-      </div>
-
     </div>
   </div>
   <script type="module" src="api.js"> </script>
