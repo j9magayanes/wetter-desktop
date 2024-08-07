@@ -14,6 +14,14 @@
   font-family: 'Gotham Narrow Medium';
   src: url('./fonts/GothamXNarrow-Medium.otf');
 }
+@font-face {
+  font-family: 'Gotham Narrow Light';
+  src: url('./fonts/GothamNarrow-Light.otf');
+}
+@font-face {
+  font-family: 'Gotham Narrow Book';
+  src: url('./fonts/GothamXNarrow-Book.otf');
+}
 :root {
   --clr-white: #ffffff;
   --clr-black: #000000;
@@ -153,7 +161,6 @@ body {
 .swatch {
   display: flex;
   align-items: center;
-  margin-top: 13px;
 }
 
 .swatch-label {
@@ -350,74 +357,20 @@ body {
   font-size: 40px;
   font-weight: 700;
   line-height: 56.26px;
-
   display: flex;
 }
 
-.info-input {
-  border: #ced4da 2.56px;
-  width: 734.55px;
-  height: 59px;
-  margin-top: 30px;
-  left: 33px;
-  gap: 9.88px;
-  opacity: 0px;
-  border-style: solid;
-  padding: 14.83px 19.77px 14.83px 19.77px;
-  gap: 4.94px;
-  border-radius: 10.26px;
-  font-family: Gotham XNarrow;
-  font-size: 25.32px;
-  font-weight: 400;
-  line-height: 32.92px;
-  text-align: left;
+.info-details {
+  font-size: 21px;
+  line-height: 27.3px;
+  margin-top: 28px;
+  font-family: 'Gotham Narrow Book';
 }
 
-.info-text {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 48.47px;
-}
-
-.info-text-close {
-  font-weight: 700;
-  width: 340px;
-  height: 60px;
-  margin-right: 54.55px;
-  line-height: 31.2px;
-  color: var(--clr-gray-dark);
+.info-btn {
   background-color: transparent;
   border: none;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Gotham Narrow Medium';
-  font-size: 28.67px;
-  font-weight: 700;
-  line-height: 34.45px;
-  letter-spacing: 0.03em;
-  text-align: center;
 }
-
-.info-text-search {
-  align-items: center;
-  justify-content: center;
-  width: 340px;
-  height: 60px;
-  border-radius: 9.99px;
-  opacity: 0px;
-  background-color: #dd0000;
-  border: none;
-  font-family: 'Gotham Narrow Medium';
-  color: #ffffff;
-  font-size: 28.67px;
-  font-weight: 700;
-  line-height: 34.45px;
-  letter-spacing: 0.03em;
-  text-align: center;
-}
-
-
-
 
 .autocomplete-suggestions {
   position: absolute;
@@ -445,12 +398,17 @@ body {
 
 .scroll-left, .scroll-right {
   width: 24px;
-height: 24px;
-background-color: #999999;
-gap: 0px;
-opacity: 0px;
-border: none;
-border-radius: 50%;
+  height: 24px;
+  background-color: #999999;
+  gap: 0px;
+  opacity: 0px;
+  border: none;
+  border-radius: 50%;
 }
 
+.bottom-legend {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 
