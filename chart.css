@@ -111,8 +111,9 @@
   }
 
   .point-circle {
-    stroke: white; 
+    stroke: var(--clr-red); 
     stroke-width: 1.83px;
+    z-index: 4;
   }
 
   .focus-circle-maxmax, .focus-circle-minmin {
