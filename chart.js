@@ -34,7 +34,7 @@ function tempChart({ element, data }) {
   }).format;
 
   // Process and organize data
-  const { groupedData, flattenedData, pointsData } = processData(data);
+  const { groupedData, flattenedData, pointsData, displayData } = processData(data);
   const totalDays = flattenedData.length;
 
   // Month names for labels
@@ -124,7 +124,6 @@ function tempChart({ element, data }) {
 
   // Resize handler
   function resized(rect) {
-    console.log(rect.width)
     noScrollWidth = rect.width -20  ;
     const boundedWidth =
       rect.width - marginRight - dayLabelsHeight / 2 + marginLeft;
@@ -162,6 +161,7 @@ function tempChart({ element, data }) {
     renderXAxis();
     renderFocus();
     renderTooltip();
+    renderPoints()
   }
 
   // Render y-axis grid
@@ -285,7 +285,7 @@ function tempChart({ element, data }) {
             .attr('fill', 'none')
             .attr('stroke', '#174482') 
             .attr('stroke-width', lineStrokeWidth)
-            .attr('stroke-dasharray', '2  3') // Create dotted effect with a dasharray
+            .attr('stroke-dasharray', '2  3') 
       )
       .attr('d', lineGenerator);
 
@@ -312,7 +312,6 @@ function renderButtons() {
 
   // Ensure buttons are appended only once
   container.selectAll('.scroll-left, .scroll-right').remove();
-
   container.append('button')
     .attr('class', 'scroll-left')
     .style('position', 'absolute')
@@ -327,7 +326,7 @@ function renderButtons() {
       .attr('class', 'arrow-svg-left')
       .attr('height', '24')
       .append('image')
-        .attr('href', './assets/left_arrow.svg') // Replace with the path to your SVG image
+        .attr('href', './assets/left_arrow.svg') 
 
   container.append('button')
     .attr('class', 'scroll-right')
@@ -341,9 +340,9 @@ function renderButtons() {
     .append('svg')
     .attr('width', '24')
     .attr('height', '24')
-    .attr('class', 'arrow-svg-right') // Add the class to the SVG element
+    .attr('class', 'arrow-svg-right')
     .append('image')
-      .attr('href', './assets/right_arrow.svg') // Replace with the path to your SVG image
+      .attr('href', './assets/right_arrow.svg')
   }
 
 
@@ -484,11 +483,31 @@ function renderButtons() {
           )
       );
   }
+  // Render points on load  
+  function renderPoints() {
+    const focusData = [displayData[1]];
+    console.log(focusData)
+  // First circle for the main data point
+  yAxisSvg
+    .selectAll('.point-circle')
+    .data(focusData)
+    .join((enter) =>
+      enter
+        .append('circle')
+        .attr('class', '.point-circle')
+        .attr('r', focusDotSize)
+    )
+    .attr('fill', 'red')
+   
 
+  }
+
+
+  // Render points on Focus /Click
   function renderFocus() {
     const focusData =
       tooltipDatumIndex === undefined ? [] : [pointsData[tooltipDatumIndex]];
-
+      console.log(focusData)
     // First circle for the main data point
     yAxisSvg
       .selectAll('.focus-circle')
@@ -510,38 +529,38 @@ function renderButtons() {
 
     // Second circle for the avgMax data point
     yAxisSvg
-      .selectAll('.focus-circle-avgmax')
+      .selectAll('.focus-circle-maxmax')
       .data(focusData)
       .join((enter) =>
         enter
           .append('circle')
-          .attr('class', 'focus-circle-avgmax')
+          .attr('class', 'focus-circle-maxmax')
           .attr('r', focusDotSize)
       )
-      .attr('fill', (d) => 'red') // Change this to whatever color you want for avgMax
+      .attr('fill', (d) => '#174482')
       .attr(
         'transform',
         (d) =>
           `translate(${x(d[0]) - scrollContainer.node().scrollLeft}, ${y(
-            d.data.avgMax
+            d.data.maxMax
           )})`
       );
     // Third circle for the avgMin data point
     yAxisSvg
-      .selectAll('.focus-circle-avgmin')
+      .selectAll('.focus-circle-minmin')
       .data(focusData)
       .join((enter) =>
         enter
           .append('circle')
-          .attr('class', 'focus-circle-avgmin')
+          .attr('class', 'focus-circle-minmin')
           .attr('r', focusDotSize)
       )
-      .attr('fill', (d) => 'red') // Change this to whatever color you want for avgMax
+      .attr('fill', (d) => '#174482')
       .attr(
         'transform',
         (d) =>
           `translate(${x(d[0]) - scrollContainer.node().scrollLeft}, ${y(
-            d.data.avgMin
+            d.data.minMin
           )})`
       );
   }
@@ -557,17 +576,17 @@ function renderButtons() {
         .html(
           `<div class="tooltip-background">
             <div class=tooltip-row>
-            <img src="./assets/temp_up.svg"/><span>2019 <span class="tooltip-value">${valueFormat(
+            <img src="./assets/temp_up.svg"/><span>2019<span class="tooltip-value">${valueFormat(
               d[1]
             )}°<span>
             </div>
             <div class=tooltip-row>
-            <img src="./assets/temp_down.svg"/><span>2019 <span class="tooltip-value">${valueFormat(
+            <img src="./assets/temp_down.svg"/><span>2019<span class="tooltip-value">${valueFormat(
               d.data.avgMax
             )}°<span>
             </div>
             <div class=tooltip-row>
-            <img src="./assets/temp_down.svg"/><span>2019 <span class="tooltip-value">${valueFormat(
+            <img src="./assets/temp_down.svg"/><span>2019<span class="tooltip-value">${valueFormat(
               d.data.avgMin
             )}°<span>  
             </div>
@@ -604,6 +623,7 @@ function renderButtons() {
     tooltipDatumIndex = i;
     // Render the focus dot and tooltip at the new index
     renderFocus();
+    renderPoints();
     renderTooltip();
   }
 
@@ -645,8 +665,11 @@ function renderButtons() {
   // Function to process raw data and prepare it for rendering
   function processData(data) {
     // Get the current month and year for filtering data
-    const currentMonth = new Date().getUTCMonth() + 1;
-    const currentYear = new Date().getFullYear();
+    const currentDate = new Date();
+    const currentMonth = currentDate.getUTCMonth() + 1;
+    const currentDay = currentDate.getUTCDate() -2 ;
+    const currentYear = currentDate.getFullYear();
+    let todayTemp 
     // Filter data to include only the last three months
     const filtered = data.months.filter(
       ({ month }) => month <= currentMonth && month >= currentMonth - 3
@@ -661,6 +684,49 @@ function renderButtons() {
     }));
     // Flatten the grouped data structure into a single array of data points
     const flattenedData = groupedData.flatMap(({ days }) => days);
+    const todayData = flattenedData.filter(d => d.day === currentDay);
+    const displayData = [
+      ...todayData
+        .map((d) => {
+          const p = [xAccessor(d), y1Accessor(d)];
+          p.seriesId = 1;
+          p.data = d;
+          return p;
+        })
+        .filter((p) => p[1] !== undefined),
+      ...todayData
+        .map((d) => {
+          const p = [xAccessor(d), y2Accessor(d)];
+          p.seriesId = 2;
+          p.data = d;
+          return p;
+        })
+        .filter((p) => p[1] !== undefined),
+      ...todayData
+        .map((d) => {
+          const p = [xAccessor(d), y0Accessor(d)];
+          p.seriesId = 2;
+          p.data = d;
+          return p;
+        })
+        .filter((p) => p[1] !== undefined),
+      ...todayData
+        .map((d) => {
+          const p = [xAccessor(d), y3Accessor(d)];
+          p.seriesId = 2;
+          p.data = d;
+          return p;
+        })
+        .filter((p) => p[1] !== undefined),
+      ...todayData
+        .map((d) => {
+          const p = [xAccessor(d), y4Accessor(d)];
+          p.seriesId = 2;
+          p.data = d;
+          return p;
+        })
+        .filter((p) => p[1] !== undefined),
+    ];
     // Create an array of pointsData containing x, y coordinates and series information
     const pointsData = [
       ...flattenedData
@@ -705,6 +771,6 @@ function renderButtons() {
         .filter((p) => p[1] !== undefined),
     ];
     // Return processed data for rendering
-    return { groupedData, flattenedData, pointsData };
+    return { groupedData, flattenedData, pointsData, displayData};
   }
 }

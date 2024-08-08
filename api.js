@@ -350,7 +350,7 @@ async function getWeatherData(city) {
     }
 
     const data = await response.json();
-    console.log("Fetched data:", data);
+
 
     const element = document.querySelector("#tempChart");
     if (!element) {

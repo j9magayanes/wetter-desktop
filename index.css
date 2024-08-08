@@ -22,6 +22,10 @@
   font-family: 'Gotham Narrow Book';
   src: url('./fonts/GothamXNarrow-Book.otf');
 }
+@font-face {
+  font-family: 'Gotham Narrow Bold';
+  src: url('./fonts/GothamXNarrow-Bold.otf');
+}
 :root {
   --clr-white: #ffffff;
   --clr-black: #000000;
@@ -95,19 +99,27 @@ body {
 
 .search-btn {
   font-size: var(--font-size);
-  margin-top: 9.26px;
-  margin-left: 8.88px;
   cursor: pointer;
-  padding: var(--padding-y) var(--padding-x);
-  background-color: transparent;
-  color: var(--clr-black);
+  background-color: var(--clr-red);
   border: none;
 }
+.vertical-line-bg {
+  background-color: var(--clr-red); 
+}
+
+.vertical-line {
+  border-left: 2px solid white;
+  height: 37.42px;
+  margin-top: 4.79px;
+}
+
 
 .search-btn > svg {
   display: block;
   width: var(--icon-size);
   height: var(--icon-size);
+  background-color: var(--clr-red);
+  top: 6.29px;
 }
 
 .question {
@@ -365,6 +377,7 @@ body {
   line-height: 27.3px;
   margin-top: 28px;
   font-family: 'Gotham Narrow Book';
+  font-weight: 900;
 }
 
 .info-btn {
