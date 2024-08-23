@@ -41,6 +41,7 @@ function tempChart({ element, data }) {
 
   // Process and organize data
   const { groupedData, flattenedData, pointsData, displayData } = processData(data);
+  const lastMonthDays = groupedData[groupedData.length - 1].days.length;
   const totalDays = flattenedData.length;
 
   // Month names for labels
@@ -76,10 +77,8 @@ function tempChart({ element, data }) {
       d3.max([y1Accessor(d), y2Accessor(d)])
     );
     const padding = (yMax - yMin) * 0.1;
-
     // Ensure the minimum y value does not exceed -10
     yMin = Math.min(yMin - padding, -10);
-
     yMax += padding;
     return [yMin, yMax];
   }
@@ -96,7 +95,6 @@ function tempChart({ element, data }) {
 
   // Create the main container
   const container = d3.select(element).attr('class', 'temp-chart');
-
   const chartContainer = container
     .append('div')
     .attr('class', 'chart-container');
@@ -111,12 +109,7 @@ function tempChart({ element, data }) {
     .on('mousemove', mousemoved)
     .on('mouseleave', mouseleft);
   const yAxisSvg = chartContainer.append('svg').attr('class', 'y-axis-svg');
-  const swatchesContainer = container
-    .append('div')
-    .attr('class', 'swatches-container');
 
-  // Render color swatches
-  //renderSwatches();
 
   // Tooltip element
   const tooltip = container.append('div').attr('class', 'tip');
@@ -129,16 +122,15 @@ function tempChart({ element, data }) {
   ).observe(scrollContainer.node());
 
   // Resize handler
-  function resized(rect) {
-    noScrollWidth = rect.width -20  ;
-    const boundedWidth =
+    // Resize handler
+    function resized(rect) {
+      noScrollWidth = rect.width- 20;
+      const boundedWidth =
       rect.width - marginRight - dayLabelsHeight / 2 + marginLeft;
     const months = d3.bisect(thresholds, boundedWidth) + 1;
     const days = d3.sum(groupedData.slice(-months), (d) => d.days.length);
-    scrollWidth =
-      (boundedWidth / (days - 1)) * (totalDays - 1) + marginLeft + marginRight -100;
-    
-
+      scrollWidth =  (boundedWidth / (days - 1)) * (totalDays - 1) + marginLeft + marginRight -100;
+  
     x.range([marginLeft, scrollWidth - marginRight]);
 
     // Create Delaunay triangulation for interaction
@@ -155,7 +147,6 @@ function tempChart({ element, data }) {
 
     // Render the chart
     renderChart();
-
     scrollContainer.node().scrollLeft = scrollContainer.node().scrollWidth;
   }
 
@@ -165,9 +156,9 @@ function tempChart({ element, data }) {
     renderSeries();
     renderButtons()
     renderXAxis();
+    renderPoints()
     renderFocus();
     renderTooltip();
-    renderPoints()
   }
 
   // Render y-axis grid
@@ -478,32 +469,8 @@ function renderButtons() {
       );
   }
 
-  // Render color swatches for legend
-  function renderSwatches() {
-    swatchesContainer
-      .selectAll('.swatch')
-      .data(['30 Tage 2023/24', '30 Tage 1973-2022'])
-      .join((enter) =>
-        enter
-          .append('div')
-          .attr('class', 'swatch')
-          .call((div) =>
-            div
-              .append('div')
-              .attr('class', 'swatch-swatch')
-              .style('background-color', (_, i) => `var(--clr-series-${i + 1})`)
-          )
-          .call((div) =>
-            div
-              .append('div')
-              .attr('class', 'swatch-label')
-              .text((d) => d)
-          )
-      );
-  }
   // Render points on load  
   function renderPoints() {
-
     const highestYear = [displayData[displayData.length-1]];
     const highest = [pointsData[153]];
     const lowest = [pointsData[8]];
@@ -735,13 +702,14 @@ function renderButtons() {
   function processData(data) {
     // Get the current month and year for filtering data
     const currentDate = new Date();
+    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
+    const numberOfDays = Math.floor((currentDate - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
     const currentMonth = currentDate.getUTCMonth() + 1;
-    const currentDay = currentDate.getUTCDate() -2;
+    const currentDay = currentDate.getUTCDate() -6;
     const currentYear = currentDate.getFullYear();
-    let todayTemp 
     // Filter data to include only the last three months
     const filtered = data.months.filter(
-      ({ month }) => month <= currentMonth && month >= currentMonth - 3
+      ({ month }) => month <= currentMonth && month >= currentMonth - 12
     );
     // Group the filtered data by month and convert date strings to Date objects
     const groupedData = filtered.map(({ month, days }) => ({

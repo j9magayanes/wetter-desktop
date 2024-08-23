@@ -1,3 +1,16 @@
+// fetch('https://5m3gf3ipcu3r7aotc2gndnzjnu0rdhip.lambda-url.eu-central-1.on.aws/prod/weathrdata_json?path=weatherdata/plz_10115_100y',  {
+//   headers: {
+//      'Accept': 'application/json'
+//   }})
+//  .then(response => response.text())
+//    .then(text => console.log(text))
+// .catch(err => {
+//   console.log(err)
+// })
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const container = document.querySelector(".card");
 
@@ -22,8 +35,9 @@ let city = "Berlin";
 let lat = 53.4661983935898;
 let lon = 9.69158914791978;
 const base_url = (zipcode) => {
-  return `https://fsin2gh4gf.execute-api.eu-central-1.amazonaws.com/prod/weathrdata_json?path=weatherdata/plz_${zipcode}_100y`;
-};
+ 
+ return `https://fsin2gh4gf.execute-api.eu-central-1.amazonaws.com/prod/weathrdata_json?path=weatherdata/plz_10115_100y`;
+ };
 
 const modal = document.getElementById("search-modal");
 const searchButton = document.getElementById("search-btn");
@@ -43,10 +57,13 @@ const tempImage = document.getElementById("tempImage");
 async function getMaxTemp(lat, long) {
   let dateToday = new Date();
   let formattedDate = dateToday.toISOString().split("T")[0];
+  console.log()
 
   let url = `https://api.brightsky.dev/weather?lat=${lat}&lon=${long}&date=${formattedDate}`;
-
+  console.log(url)
   const urlResponse = await fetch(url);
+  console.log(urlResponse)
+  //const urlResponse = await fetch('Berlin.json');
   if (!urlResponse.ok) {
     throw new Error(`An error occurred: ${urlResponse.statusText}`);
   }
@@ -285,6 +302,7 @@ async function getZipByCityName(input) {
 async function getWeatherData(city) {
   try {
     const response = await fetch(base_url(city));
+    //const response = await fetch('Berlin.json');
     if (!response.ok) {
       throw new Error(`An error occurred: ${response.statusText}`);
     }
@@ -339,15 +357,16 @@ async function getWeatherData(city) {
 
 // Initial fetch for default city
 (async () => {
-  try {
-    if (typeof zip === "undefined" || typeof base_url !== "function") {
-      throw new Error("zip or base_url is not defined");
-    }
+  // try {
+  //    if (typeof zip === "undefined" || typeof base_url !== "function") {
+  //     throw new Error("zip or base_url is not defined");
+  //    }
 
-    const response = await fetch(base_url(zip));
-    if (!response.ok) {
-      throw new Error(`An error occurred: ${response.statusText}`);
-    }
+   const response = await fetch(base_url(zip));
+   //const response = await fetch('Berlin.json');
+   if (!response.ok) {
+     throw new Error(`An error occurred: ${response.statusText}`);
+   }
 
     const data = await response.json();
 
@@ -362,9 +381,9 @@ async function getWeatherData(city) {
       data,
     });
     console.log("Chart created successfully");
-  } catch (error) {
-    console.error("Error fetching the initial weather data:", error);
-  }
+  // } catch (error) {
+  //   console.error("Error fetching the initial weather data:", error);
+  // }
 })();
 
 
@@ -481,26 +500,26 @@ async function getWeatherData(city) {
   }
 }
 
-// Initial fetch for default city
-(async () => {
-  try {
-    const response = await fetch(`./data/${city}.json`);
-    if (!response.ok) {
-      throw new Error(`An error occurred: ${response.statusText}`);
-    }
-    const data = await response.json();
-    const element = document.querySelector("#tempChart");
+// // Initial fetch for default city
+// (async () => {
+//   try {
+//     const response = await fetch(`./data/${city}.json`);
+//     if (!response.ok) {
+//       throw new Error(`An error occurred: ${response.statusText}`);
+//     }
+//     const data = await response.json();
+//     const element = document.querySelector("#tempChart");
 
-    if (!element) {
-      throw new Error("Chart element not found");
-    }
+//     if (!element) {
+//       throw new Error("Chart element not found");
+//     }
 
-    let myTempChart = tempChart({
-      element: element,
-      data,
-    });
-  } catch (error) {
-    console.error('Error fetching the initial weather data:', error);
-  }
-})();
- */
+//     let myTempChart = tempChart({
+//       element: element,
+//       data,
+//     });
+//   } catch (error) {
+//     console.error('Error fetching the initial weather data:', error);
+//   }
+// })();
+//  */
