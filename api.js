@@ -1,16 +1,3 @@
-// fetch('https://5m3gf3ipcu3r7aotc2gndnzjnu0rdhip.lambda-url.eu-central-1.on.aws/prod/weathrdata_json?path=weatherdata/plz_10115_100y',  {
-//   headers: {
-//      'Accept': 'application/json'
-//   }})
-//  .then(response => response.text())
-//    .then(text => console.log(text))
-// .catch(err => {
-//   console.log(err)
-// })
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
   const container = document.querySelector(".card");
 
@@ -27,16 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
   new ResizeObserver(postHeight).observe(container);
 });
 
-
 // Initial Zip and City
 let zip = "10115";
 let city = "Berlin";
-// What is the valid lat long for berlin
+// What is the valid lat long for Berlin?
 let lat = 53.4661983935898;
 let lon = 9.69158914791978;
 const base_url = (zipcode) => {
- 
- return `https://fsin2gh4gf.execute-api.eu-central-1.amazonaws.com/prod/weathrdata_json?path=weatherdata/plz_10115_100y`;
+    return `https://api.bild.de/historicalweatherdata/get_weatherdata_json_object?path=weatherdata/100y&file=plz_${zipcode}`;
  };
 
 const modal = document.getElementById("search-modal");
@@ -59,7 +44,7 @@ async function getMaxTemp(lat, long) {
   let formattedDate = dateToday.toISOString().split("T")[0];
   console.log()
 
-  let url = `https://api.brightsky.dev/weather?lat=${lat}&lon=${long}&date=${formattedDate}`;
+ let url = `https://api.brightsky.dev/weather?lat=${lat}&lon=${long}&date=${formattedDate}`;
   console.log(url)
   const urlResponse = await fetch(url);
   console.log(urlResponse)
@@ -96,9 +81,7 @@ async function getMaxTemp(lat, long) {
       break;
     }
   }
-
   const avgTemperature = count > 0 ? sumTemperature / count : null;
-
   return { maxTemperature, avgTemperature };
 }
 
@@ -170,11 +153,9 @@ window.onclick = function (event) {
   }
 };
 
-
-
-// get list of all the city and zip
+// Get list of all the cities and zips
 async function getCityData() {
-  const response = await fetch("https://bild-weatherapi-dev.s3.amazonaws.com/PLZ.json");
+  const response = await fetch("https://api.bild.de/historicalweatherdata/get_weatherdata_json_object?path=weatherdata&file=PLZ");
   const data = await response.json();
 
   const cityMap = new Map();
@@ -357,33 +338,29 @@ async function getWeatherData(city) {
 
 // Initial fetch for default city
 (async () => {
-  // try {
-  //    if (typeof zip === "undefined" || typeof base_url !== "function") {
-  //     throw new Error("zip or base_url is not defined");
-  //    }
+  try {
+    if (typeof zip === "undefined" || typeof base_url !== "function") {
+      throw new Error("zip or base_url is not defined");
+     }
 
    const response = await fetch(base_url(zip));
    //const response = await fetch('Berlin.json');
    if (!response.ok) {
      throw new Error(`An error occurred: ${response.statusText}`);
    }
-
     const data = await response.json();
-
-
     const element = document.querySelector("#tempChart");
     if (!element) {
       throw new Error("Chart element not found");
     }
-
     let myTempChart = tempChart({
       element: element,
       data,
     });
     console.log("Chart created successfully");
-  // } catch (error) {
-  //   console.error("Error fetching the initial weather data:", error);
-  // }
+  } catch (error) {
+    console.error("Error fetching the initial weather data:", error);
+  }
 })();
 
 

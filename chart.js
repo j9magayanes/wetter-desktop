@@ -471,14 +471,17 @@ function renderButtons() {
 
   // Render points on load  
   function renderPoints() {
-    const highestYear = [displayData[displayData.length-1]];
+    const today = [displayData? displayData[displayData.length-2]: 0];
+    console.log(today)
+    //Sample
+    const highestYear =[pointsData[154]];
     const highest = [pointsData[153]];
     const lowest = [pointsData[8]];
-    console.log(highest)
-  // First circle for the main data point
-   svg
+  
+    // Highest this year
+    svg
     .selectAll('.point-circle')
-    .data(highestYear)
+    .data(today)
     .join((enter) =>
       enter
         .append('circle')
@@ -494,6 +497,26 @@ function renderButtons() {
           d.data.maxMaxThisYear
         )})`
     );
+  // Highest this year
+   svg
+    .selectAll('.point-circle-maxyear')
+    .data(highestYear)
+    .join((enter) =>
+      enter
+        .append('circle')
+        .attr('class', 'point-circle-maxyear')
+        .attr('r', focusDotSize)
+        .style('z-index', 5)
+    )
+    .attr('fill', 'red')
+    .attr(
+      'transform',
+      (d) =>
+        `translate(${x(d[0])}, ${y(
+          d.data.maxMaxThisYear
+        )})`
+    );
+    // Highest within the current dataset
    svg
     .selectAll('.point-circle-maxmax')
     .data(highest)
@@ -511,6 +534,7 @@ function renderButtons() {
           d.data.maxMax
         )})`
     );
+    // Lowest within the current dataset
     svg
     .selectAll('.point-circle-minmin')
     .data(lowest)
@@ -535,7 +559,6 @@ function renderButtons() {
   function renderFocus() {
     const focusData =
       tooltipDatumIndex === undefined ? [] : [pointsData[tooltipDatumIndex]];
-    console.log(focusData)
     // First circle for the main data point
     yAxisSvg
       .selectAll('.focus-circle')
@@ -705,7 +728,7 @@ function renderButtons() {
     const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
     const numberOfDays = Math.floor((currentDate - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
     const currentMonth = currentDate.getUTCMonth() + 1;
-    const currentDay = currentDate.getUTCDate() -6;
+    const currentDay = currentDate.getUTCDate();
     const currentYear = currentDate.getFullYear();
     // Filter data to include only the last three months
     const filtered = data.months.filter(
@@ -721,6 +744,7 @@ function renderButtons() {
     }));
     // Flatten the grouped data structure into a single array of data points
     const flattenedData = groupedData.flatMap(({ days }) => days);
+
     const todayData = flattenedData.filter(d => d.day === currentDay);
     const displayData = [
       ...todayData
